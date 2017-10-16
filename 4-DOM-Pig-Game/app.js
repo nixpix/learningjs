@@ -14,16 +14,28 @@ var scores, activePlayer, roundScore;
 
 var playing;
 
+var selections = {
+  scoreZero: document.querySelector('#score-0'),
+  scoreOne: document.querySelector('#score-1'),
+  currentZero: document.querySelector('#current-0'),
+  currentOne: document.querySelector('#current-1'),
+  playerOnePanel: document.querySelector('.player-0-panel'),
+  playerTwoPanel: document.querySelector('.player-1-panel'),
+  diceImage: document.querySelector('.dice')
+}
+
 init();
 
+
+
 function init() {
-  document.querySelector('#score-0').textContent = '-';
-  document.querySelector('#score-1').textContent = '-';
-  document.querySelector('#current-0').textContent = '-';
-  document.querySelector('#current-1').textContent = '-';
-  document.querySelector('.player-0-panel').classList.remove('active');
-  document.querySelector('.player-1-panel').classList.remove('active');
-  document.querySelector('.dice').style.display = 'none';
+  selections.scoreZero.textContent = '-';
+  selections.scoreOne.textContent = '-';
+  selections.currentZero.textContent = '-';
+  selections.currentOne.textContent = '-';
+  selections.playerOnePanel.classList.remove('active');
+  selections.playerTwoPanel.classList.remove('active');
+  selections.diceImage.style.display = 'none';
   playing = 0;
 }
 
@@ -32,8 +44,8 @@ function newGame() {
   activePlayer = 0;
   roundScore = 0;
   playing = 1;
-  document.querySelector('.player-0-panel').classList.add('active');
-  document.querySelector('.player-1-panel').classList.remove('active');
+  selections.playerOnePanel.classList.add('active');
+  selections.playerTwoPanel.classList.remove('active');
   document.querySelector('#score-0').textContent = '0';
   document.querySelector('#score-1').textContent = '0';
   document.querySelector('#current-0').textContent = '0';
@@ -47,8 +59,8 @@ function nextPlayer() {
   roundScore = 0;
   document.querySelector('.dice').style.display = 'none';
   
-  document.querySelector('.player-0-panel').classList.toggle('active');
-  document.querySelector('.player-1-panel').classList.toggle('active');
+  selections.playerOnePanel.classList.toggle('active');
+  selections.playerTwoPanel.classList.toggle('active');
 
   document.querySelector('#current-0').textContent = '0';
   document.querySelector('#current-1').textContent = '0';
@@ -78,8 +90,8 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     scores[activePlayer] += roundScore;
     document.querySelector(`#score-${activePlayer}`).textContent = scores[activePlayer];
     if (scores[activePlayer] >= 20) {
-      document.querySelector('.player-0-panel').classList.remove('active');
-      document.querySelector('.player-1-panel').classList.remove('active');
+      selections.playerOnePanel.classList.remove('active');
+      selections.playerTwoPanel.classList.remove('active');
       document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
       document.querySelector(`#name-${activePlayer}`).textContent = 'WINNER!';
       document.querySelector('.dice').style.display = 'none';
