@@ -10,11 +10,11 @@ GAME RULES:
 */
 
 
-var scores, activePlayer, roundScore;
+var scores, activePlayer, roundScore, previousRoll, winningScore;
 
 var playing;
 
-var selections = {
+const selections = {
   scoreZero: document.querySelector('#score-0'),
   scoreOne: document.querySelector('#score-1'),
   currentZero: document.querySelector('#current-0'),
@@ -22,7 +22,7 @@ var selections = {
   playerOnePanel: document.querySelector('.player-0-panel'),
   playerTwoPanel: document.querySelector('.player-1-panel'),
   diceImage: document.querySelector('.dice')
-}
+};
 
 init();
 
@@ -51,7 +51,7 @@ function newGame() {
   document.querySelector('#current-0').textContent = '0';
   document.querySelector('#current-1').textContent = '0';
   document.querySelector('.dice').style.display = 'none';
-
+  winningScore = prompt('Enter the winning score');
 }
 
 function nextPlayer() {
@@ -70,13 +70,17 @@ function nextPlayer() {
 document.querySelector('.btn-roll').addEventListener('click', function() {
   if (playing !== 0) {
     var diceValue = Math.floor(Math.random() * 6) + 1;
-    console.log(diceValue);
-  
-  
+    previousRoll = diceValue;
     document.querySelector('.dice').src = `dice-${diceValue}.png`;
     document.querySelector('.dice').style.display = 'block';
   
-    if (diceValue !== 1) {
+    if (diceValue === 6 && previousRoll === 6) {
+      roundScore = 0;
+      scores[activePlayer] = 0;
+      document.querySelector(`#current-${activePlayer}`).textContent = roundScore;
+      document.querySelector(`#score-${activePlayer}`).textContent = 0;
+      nextPlayer();
+    } else if (diceValue !== 1) {
       roundScore += diceValue;
       document.querySelector(`#current-${activePlayer}`).textContent = roundScore;
     } else {
@@ -89,7 +93,7 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
   if (playing !== 0) {
     scores[activePlayer] += roundScore;
     document.querySelector(`#score-${activePlayer}`).textContent = scores[activePlayer];
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= winningScore) {
       selections.playerOnePanel.classList.remove('active');
       selections.playerTwoPanel.classList.remove('active');
       document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
