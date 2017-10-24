@@ -37,6 +37,8 @@ function init() {
   selections.playerTwoPanel.classList.remove('active');
   selections.diceImage.style.display = 'none';
   playing = 0;
+  document.querySelector('.scoreInput').style.display = 'block';
+  
 }
 
 function newGame() {
@@ -51,7 +53,9 @@ function newGame() {
   document.querySelector('#current-0').textContent = '0';
   document.querySelector('#current-1').textContent = '0';
   document.querySelector('.dice').style.display = 'none';
-  winningScore = prompt('Enter the winning score');
+  winningScore = document.querySelector('#scoreInput').value;
+  console.log(winningScore);
+  document.querySelector('.scoreInput').style.display = 'block';
 }
 
 function nextPlayer() {
@@ -73,6 +77,8 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     previousRoll = diceValue;
     document.querySelector('.dice').src = `dice-${diceValue}.png`;
     document.querySelector('.dice').style.display = 'block';
+    document.querySelector('.scoreInput').style.display = 'none';
+    
   
     if (diceValue === 6 && previousRoll === 6) {
       roundScore = 0;
